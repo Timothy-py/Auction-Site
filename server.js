@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const multer = require('multer');
 
 const fs = require('fs');
 const path = require('path');
@@ -25,6 +26,18 @@ const connection = mongoose.connection;
 connection.once('open', ()=>{
     console.log('MongoDB Database connection established successfully');
 })
+
+// set up multer for storing uploaded files
+var storage =  multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'uploads')
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.fieldname + '-' + Date.now())
+    }
+});
+
+var upload = multer({storage: storage});
 
 
 app.listen(port, ()=>{
