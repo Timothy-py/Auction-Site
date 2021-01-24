@@ -1,0 +1,19 @@
+{
+  "name": "auction-site",
+  "version": "1.0.0",
+  "description": "Auction Site API: fullstack developer test for Beed.ng",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Timothy-py/Auction-Site.git"
+  },
+  "author": "Timothy",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Timothy-py/Auction-Site/issues"
+  },
+  "homepage": "https://github.com/Timothy-py/Auction-Site#readme"
+}
