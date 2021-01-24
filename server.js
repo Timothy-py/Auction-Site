@@ -13,7 +13,7 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-app.use('/auction', auction);
+app.use('/api/auction', auction);
 
 // setup mongodb connection: connecting to mongo atlas
 const uri = process.env.ATLAS_URI;

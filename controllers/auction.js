@@ -8,7 +8,7 @@ exports.getAllAuctions = (req, res) => {
     Auction.find()
         .then(auctions => res.json({
             message: 'All Auctions Retrieved Successfully',
-            data: exercises
+            data: auctions
         }))
         .catch(err => res.json({
             'Error Code': err.status,
@@ -26,7 +26,7 @@ exports.createAuction = (req, res, next) => {
         start_time: req.body.start_time,
         end_time: req.body.end_time,
         image: {
-            data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
+            data: fs.readFileSync(path.join('../uploads/' + req.file.filename)),
             contentType: 'image/png'
         }
     }
