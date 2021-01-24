@@ -1,15 +1,17 @@
 const router = require('express').Router();
+const upload = require('../middleware/image_upload');
 
-// const userController = require('../controllers/user')
+const auctionController = require('../controllers/auction')
 
 
 
-// USER ROUTES
+// AUCTION ROUTES
 
 // get all users
-// router.get('/users', userController.getAllUsers);
-// add a user
-// router.post('/user/add', userController.addNewUser);
+router.get('/all', auctionController.getAllAuctions);
+
+// create an auction
+router.post('/create', upload.single('image'), auctionController.createAuction);
 
 
 module.exports = router;
