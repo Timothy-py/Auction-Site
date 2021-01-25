@@ -19,17 +19,17 @@ exports.getAllAuctions = (req, res) => {
 // create an auction
 exports.createAuction = (req, res, next) => {
     // get action data from frontend
-
-    // generates a random identifier
-    let file_key = Math.random().toString(12).substring(2,15)
+    console.log(req.file.path)
+    const path = req.file.path;
     var auction = {
         title: req.body.title,
         start_time: req.body.start_time,
         end_time: req.body.end_time,
-        image: {
-            data: fs.readFileSync(path.join('./uploads/' + file_key)),
-            contentType: 'image/png'
-        }
+        // image: {
+        //     data: fs.readFileSync(path.join('./uploads/' + req.body.image.name)),
+        //     contentType: 'image/png'
+        // }
+        image: {path}
     }
     // load/create auction
     Auction.create(auction)
