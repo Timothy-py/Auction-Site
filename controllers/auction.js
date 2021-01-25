@@ -25,11 +25,10 @@ exports.createAuction = (req, res, next) => {
         title: req.body.title,
         start_time: req.body.start_time,
         end_time: req.body.end_time,
-        // image: {
-        //     data: fs.readFileSync(path.join('./uploads/' + req.body.image.name)),
-        //     contentType: 'image/png'
-        // }
-        image: {path}
+        image: {
+            data:path,
+            contentType: 'image/png'
+        }
     }
     // load/create auction
     Auction.create(auction)
