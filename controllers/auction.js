@@ -24,7 +24,7 @@ exports.createAuction = (req, res, next) => {
         start_time: req.body.start_time,
         end_time: req.body.end_time,
         image: {
-            data: fs.readFileSync(path.join('../uploads/' + req.file.filename)),
+            data: fs.readFileSync(path.join('./uploads/' + req.file.filename)),
             contentType: 'image/png'
         }
     }
@@ -34,7 +34,9 @@ exports.createAuction = (req, res, next) => {
             message: 'Auction Created Successfully'
         }))
         .catch(err => res.json({
+            'Error Code': err.status,
             'message': "Unable to Create Auction",
+            'Error Message': err
         }))
 
 }
