@@ -11,9 +11,7 @@ exports.getAllAuctions = (req, res) => {
             data: auctions
         }))
         .catch(err => res.json({
-            'Error Code': err.status,
-            'message': "Unable to Create Auction",
-            'Error Message': err
+            'message': "Unable to List Auctions"
         }))
 };
 
@@ -36,9 +34,7 @@ exports.createAuction = (req, res, next) => {
             message: 'Auction Created Successfully'
         }))
         .catch(err => res.json({
-            'Error Code': err.status,
             'message': "Unable to Create Auction",
-            'Error Message': err
         }))
 
 }
