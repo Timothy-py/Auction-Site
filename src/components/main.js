@@ -18,7 +18,7 @@ function Main(props) {
                 </div>
             </div>
 
-            <script>
+            {/* <script>
                 {
                     // Set the date we're counting down to
                     var countDownDate = new Date(props.data.end_time).getTime();
@@ -49,7 +49,7 @@ function Main(props) {
                     }
                     }, 1000);
                 }
-            </script>
+            </script> */}
         </div>
     )
 }
