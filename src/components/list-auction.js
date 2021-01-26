@@ -19,8 +19,10 @@ class AuctionList extends Component{
     componentDidMount(){
         axios.get("https://auctionapplet.herokuapp.com/api/auction/all")
         .then(response => {
+
             console.log("AUCTINO LIST HERE")
             console.log(response.data.data)
+
             this.setState({
                 auctions: response.data.data
             })
@@ -32,8 +34,12 @@ class AuctionList extends Component{
 
 
     render() {
+        var index = 0
         let auctionsItems = this.state.auctions.map((obj) => {
-            return <Main key={obj._id} data={obj}/>
+            for (var i=0; i<this.state.auctions.length; i++){
+                index = i
+            }
+            return <Main key={index} data={obj}/>
         })
         return (
              <div className="auction-section">

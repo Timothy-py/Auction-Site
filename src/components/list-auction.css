@@ -27,8 +27,10 @@ h2 {
 }
 
 .auction-card {
+  display: flex;
+  justify-content: space-around;
   background-color: #fff;
-  width: 80%;
+  width: 100%;
   height: 150px;
   margin: 20px auto;
   padding: 20px 30px;
@@ -38,7 +40,7 @@ p {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.inn-left {
+/* .inn-left {
   float: left;
   width: 50%;
 }
@@ -46,7 +48,7 @@ p {
 .inn-right {
   float: right;
   width: 45%;
-}
+} */
 
 .IMG-placeholder {
   /* background-image: url(img/pexels-photo-428340.jpg); */
@@ -86,6 +88,7 @@ p {
   }
 
   .auction-card {
+    display: flex;
     margin: 20px auto;
     padding: 20px 15px;
     width: 85%;
