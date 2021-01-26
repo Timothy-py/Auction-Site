@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-
+// configure auction db model
 const auction = new Schema({
     title: {
         type: String,

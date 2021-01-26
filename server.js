@@ -1,3 +1,4 @@
+// require modules
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
@@ -7,12 +8,14 @@ require('dotenv').config();
 // require routes
 const auction = require('./routes/auction');
 
+// activate express app
 const app = express();
 const port = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(express.json());
 
+// base route
 app.use('/api/auction', auction);
 
 // setup mongodb connection: connecting to mongo atlas
@@ -29,4 +32,5 @@ app.listen(port, ()=>{
     console.log(`Server is running on port: ${port}`);
 });
 
+// export this file
 module.exports = app;
