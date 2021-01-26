@@ -19,16 +19,14 @@ exports.getAllAuctions = (req, res) => {
 // create an auction
 exports.createAuction = (req, res, next) => {
     // get action data from frontend
-    console.log(req.file.path)
-    const path = req.file.path;
+    console.log(req.protocol + "://" + req.get('host'))
+    const url = req.protocol + "://" + req.get('host')
     var auction = {
         title: req.body.title,
         start_time: req.body.start_time,
         end_time: req.body.end_time,
-        image: {
-            data:path,
-            contentType: 'image/png'
-        }
+        image: url + '/public/' + req.file.filename
+        
     }
     // load/create auction
     Auction.create(auction)
