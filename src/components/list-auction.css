@@ -40,16 +40,6 @@ p {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* .inn-left {
-  float: left;
-  width: 50%;
-}
-
-.inn-right {
-  float: right;
-  width: 45%;
-} */
-
 .IMG-placeholder {
   /* background-image: url(img/pexels-photo-428340.jpg); */
   background-position: center;
@@ -83,7 +73,7 @@ p {
     margin: 5px 0px;
   }
 
-  .diff-p {
+  .timer {
     text-align: right;
   }
 
