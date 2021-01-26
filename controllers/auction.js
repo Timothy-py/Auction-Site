@@ -1,7 +1,8 @@
-const fs = require('fs');
-const path = require('path');
+const AWS = require('aws-sdk');
+const { uuid } = require('uuidv4');
 
 const Auction = require('../models/auction');
+
 
 // list all auctions
 exports.getAllAuctions = (req, res) => {
@@ -16,20 +17,40 @@ exports.getAllAuctions = (req, res) => {
 };
 
 
+const s3 = new AWS.S3({
+    accessKeyId: process.env.AWS_ID,
+    secretAccessKey: process.env.AWS_SECRET
+})
+
 // create an auction
 exports.createAuction = (req, res, next) => {
-    // get action data from frontend
-    console.log(req.protocol + "://" + req.get('host'))
-    const url = req.protocol + "://" + req.get('host')
-    var auction = {
-        title: req.body.title,
-        start_time: req.body.start_time,
-        end_time: req.body.end_time,
-        image: url + '/public/' + req.file.filename
-        
+
+    let image = req.file.originalname.split(".")
+    const fileType = image[image.length - 1]
+
+    const params = {
+        Bucket: "myauctionbuckettest",
+        Key: `${uuid()}.${fileType}`,
+        Body: req.file.buffer
     }
-    // load/create auction
-    Auction.create(auction)
+
+    s3.upload(params, (error, data) => {
+        if(error){
+            res.status(500).send(error)
+        }
+
+        // get action data from frontend
+        var auction = {
+            title: req.body.title,
+            start_time: req.body.start_time,
+            end_time: req.body.end_time,
+            image: data['Location']
+        }
+
+        console.log(auction)
+
+        // load/create auction
+        Auction.create(auction)
         .then(() => res.status(201).json({
             message: 'Auction Created Successfully'
         }))
@@ -38,5 +59,9 @@ exports.createAuction = (req, res, next) => {
             'message': "Unable to Create Auction",
             'Error Message': err
         }))
+            
+    })
+
+    
 
 }

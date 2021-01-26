@@ -11,7 +11,7 @@ const auctionController = require('../controllers/auction')
 router.get('/all', auctionController.getAllAuctions);
 
 // create an auction
-router.post('/create', upload.single('image'), auctionController.createAuction);
+router.post('/create', upload, auctionController.createAuction);
 
 
 module.exports = router;
