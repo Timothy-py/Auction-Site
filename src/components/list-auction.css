@@ -1,0 +1,109 @@
+body {
+  padding: 0px;
+  margin: 0px;
+  box-sizing: border-box;
+  width: 100%;
+  background-color: #f3f1f1;
+}
+
+h2 {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  padding-left: 30px;
+}
+.auction-section {
+  padding: 50px 60px;
+  height: auto;
+}
+
+.left-side {
+  float: left;
+  width: 45%;
+  padding: 30px;
+}
+.right-side {
+  float: right;
+  width: 45%;
+  padding: 30px;
+}
+
+.auction-card {
+  background-color: #fff;
+  width: 80%;
+  height: 150px;
+  margin: 20px auto;
+  padding: 20px 30px;
+  border-radius: 15px;
+}
+p {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.inn-left {
+  float: left;
+  width: 50%;
+}
+
+.inn-right {
+  float: right;
+  width: 45%;
+}
+
+.IMG-placeholder {
+  /* background-image: url(img/pexels-photo-428340.jpg); */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100px;
+  height: 100px;
+  border-radius: 10px;
+}
+
+@media only screen and (max-width: 768px) {
+  .auction-section {
+    padding: 30px 0px;
+  }
+
+  .left-side {
+    float: none;
+    width: 95%;
+    margin: auto;
+    padding: 10px 0px;
+  }
+
+  .right-side {
+    float: none;
+    width: 95%;
+    margin: auto;
+    padding: 10px 0px;
+  }
+  p {
+    font-size: 14px;
+    margin: 5px 0px;
+  }
+
+  .diff-p {
+    text-align: right;
+  }
+
+  .auction-card {
+    margin: 20px auto;
+    padding: 20px 15px;
+    width: 85%;
+    height: 145px;
+  }
+
+  .IMG-placeholder {
+    width: 80px;
+    height: 80px;
+    margin: auto;
+  }
+
+  .inn-left {
+    float: right;
+  }
+
+  .inn-right {
+    float: left;
+    width: 50%;
+  }
+}

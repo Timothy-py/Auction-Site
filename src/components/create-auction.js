@@ -7,14 +7,14 @@ import axios from "axios"
 
 class CreateAuction extends Component{
 
-    constructor(){
-        super()
+    constructor(props){
+        super(props)
 
         this.state = {
             title: '',
             start_time: new Date(),
             end_time: new Date(),
-            image: null
+            image: ''
         }
         this.changeHandler = this.changeHandler.bind(this)
         this.startTimeHandler = this.startTimeHandler.bind(this)
@@ -47,23 +47,32 @@ class CreateAuction extends Component{
         this.setState({image: event.target.files[0]});
     }
 
-    async onSubmit(event){
+    onSubmit(event){
         event.preventDefault();
+
+        var formData = new FormData();
+
+        formData.append(
+            "image",
+            this.state.image
+        )
 
         const auction = {
             title: this.state.title,
             start_time: this.state.start_time,
             end_time: this.state.end_time,
-            image: this.state.image
+            image: formData
         }
-
+        
+        console.log("I AM AT THE TOP")
         console.log(auction)
+        console.log("I AM AT THE BOTTOM")
 
-        await axios.post('XXXXXXXXXXX', auction)
+        axios.post('https://auctionapplet.herokuapp.com/api/auction/create', auction)
         .then(res => console.log(res.data))
         .catch(err => console.log(`Unable to create auction: ${err}`))
 
-        window.location = '/';
+        // window.location = '/';
     }
 
     render() {
@@ -99,9 +108,12 @@ class CreateAuction extends Component{
                         <input type="file" id="image" name="image" onChange={this.onFileChange} required />
                     </div>
                     <br/>
-                    <div className="form-group">
+                    {/* <div className="form-group">
                         <input type="submit" value="Create Auction" className="btn btn-primary" />
-                    </div>
+                    </div> */}
+                    <div className="form-group">
+                        <button className="btn btn-primary" type="submit">Create Auction</button>
+                     </div>
                 </form>
             </div>
         );
