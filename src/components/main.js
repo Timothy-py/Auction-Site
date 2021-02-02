@@ -1,4 +1,21 @@
 import React from "react"
+import Moment from 'react-moment';
+import 'moment-timezone';
+import Countdown from 'react-countdown';
+
+// Random component
+const Completionist = () => <span>Auction Closed!</span>;
+ 
+// Renderer callback with condition
+const renderer = ({ hours, minutes, seconds, completed }) => {
+  if (completed) {
+    // Render a completed state
+    return <Completionist />;
+  } else {
+    // Render a countdown
+    return <span>{hours}:{minutes}:{seconds}</span>;
+  }
+};
 
 function Main(props) {
     return (
@@ -13,43 +30,15 @@ function Main(props) {
 
                 <div className=".inn-right">
                     <p><b>Title:</b> {props.data.title}</p>
-                    <p><b>Start Time:</b> {props.data.start_time}</p>
-                    <p><b>End Time:</b> {props.data.end_time}</p>
+                    <p><b>Start Time:</b> <Moment data={(props.data.start_time)} format="MMM DD, YYYY HH:SSA" /></p>
+                    <p><b>End Time:</b> <Moment data={(props.data.end_time)} format="MMM DD, YYYY HH:SSA" /></p>
+                    
+                    {/* <Countdown>
+                        date=={Date.now() + 5000}
+                        renderer={renderer}
+                    </Countdown> */}
                 </div>
             </div>
-
-            {/* <script>
-                {
-                    // Set the date we're counting down to
-                    var countDownDate = new Date(props.data.end_time).getTime();
-
-                    // Update the count down every 1 second
-                    var x = setInterval(function() {
-
-                    // Get today's date and time
-                    var start = new Date(props.data.start_time).getTime();
-                        
-                    // Find the distance between now and the count down date
-                    var distance = countDownDate - ;
-                        
-                    // Time calculations for days, hours, minutes and seconds
-                    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-                        
-                    // Output the result in an element with id="demo"
-                    document.getElementById("timer").innerHTML = days + "d " + hours + "h "
-                    + minutes + "m " + seconds + "s ";
-                        
-                    // If the count down is over, write some text 
-                    if (distance < 0) {
-                        clearInterval(x);
-                        document.getElementById("timer").innerHTML = "CLOSED";
-                    }
-                    }, 1000);
-                }
-            </script> */}
         </div>
     )
 }
