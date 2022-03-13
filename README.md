@@ -14,5 +14,6 @@ A simple app for a user to create an auction.
 - MongoDB Atlas
 - Mongoose
 - AWS S3
+- Docker
 
 ###### _contact me @ adeyeyetimothy33@gmail.com_
