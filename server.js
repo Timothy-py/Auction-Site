@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 
 // require routes
-const auction = require('./routes/auction');
+const auction = require('./routes/api/v1');
 
 // activate express app
 const app = express();

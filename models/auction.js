@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const categorySchema = require('./category')
+const categorySchema = require('./category').category
 
 // configure auction db model
 const auction = new Schema({
@@ -10,7 +10,7 @@ const auction = new Schema({
         required:true,
         unique:true
     },
-    category: categorySchema.category, 
+    category: [categorySchema],
     start_time: {
         type: Date,
         required:true,
