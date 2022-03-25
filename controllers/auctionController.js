@@ -30,7 +30,7 @@ exports.createAuction = (req, res, next) => {
     const fileType = image[image.length - 1]
 
     const params = {
-        Bucket: "myauctionbuckettest",
+        Bucket: "auctionappbucket",
         Key: `${uuid()}.${fileType}`,
         Body: req.file.buffer
     }
