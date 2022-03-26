@@ -2,8 +2,8 @@ const router = require('express').Router();
 const upload = require('../middleware/image_upload');
 
 // require middleware
-const auctionController = require('../controllers/auction')
-const categoryController =  require('../controllers/category')
+const auctionController = require('../controllers/auctionController')
+const categoryController =  require('../controllers/categoryController')
 
 
 

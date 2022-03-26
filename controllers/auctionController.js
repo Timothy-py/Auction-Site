@@ -3,6 +3,7 @@ const { uuid } = require('uuidv4');
 
 // get auction model object
 const Auction = require('../models/auction');
+const Category = require('../models/category').Category
 
 
 // list all auctions
@@ -36,32 +37,38 @@ exports.createAuction = (req, res, next) => {
     }
 
     // send image file to s3 bucket
-    s3.upload(params, (error, data) => {
+    s3.upload(params, async (error, data) => {
         if(error){
             res.status(500).send(error)
         }
 
-        // get action data from frontend
-        var auction = {
-            title: req.body.title,
-            start_time: req.body.start_time,
-            end_time: req.body.end_time,
-            image: data['Location']
-        }
+        const title = req.body.title
+        const start_time = req.body.start_time
+        const end_time = req.body.end_time
+        const image = data['Location']
+        const category = new Category({
+            title: req.body.category
+        })
 
-        // load/create auction
-        Auction.create(auction)
-        .then(() => res.status(201).json({
-            message: 'Auction Created Successfully'
-        }))
-        .catch(err => res.json({
-            'Error Code': err.status,
-            'message': "Unable to Create Auction",
-            'Error Message': err
-        }))
-            
+        const auction = new Auction({
+            title,
+            start_time,
+            end_time,
+            image,
+            category
+        });
+
+        await auction.save()
+            .then((data) => {
+                res.status(201).json({
+                    message: "Auction created successfully",
+                    data: data
+                })
+            })
+            .catch((err) => {
+                res.status(500).json({
+                    message: `${err.status} - ${err.message}`
+                })
+            })
     })
-
-    
-
 }
