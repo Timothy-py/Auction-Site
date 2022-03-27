@@ -4,6 +4,7 @@ const upload = require('../middleware/image_upload');
 // require middleware
 const auctionController = require('../controllers/auctionController')
 const categoryController =  require('../controllers/categoryController')
+const bidderController = require('../controllers/bidderController')
 
 
 
@@ -17,6 +18,9 @@ router.post('/auction', upload, auctionController.createAuction);
 
 // CATEGORY ROUTES
 router.post('/category', categoryController.createCategory);
+
+// signup bidder
+router.post('/bidder/signup', bidderController.bidderSignup);
 
 
 module.exports = router;
