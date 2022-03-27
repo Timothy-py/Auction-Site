@@ -22,5 +22,8 @@ router.post('/category', categoryController.createCategory);
 // signup bidder
 router.post('/bidder/signup', bidderController.bidderSignup);
 
+// signin bidder
+router.post('/bidder/signin', bidderController.bidderSignin);
+
 
 module.exports = router;

@@ -2,6 +2,7 @@
 const Bidder = require('../models/bidder');
 const bcrypt = require('bcrypt');
 const {body, validationResult} = require('express-validator');
+const jwtGenerator = require('../utils/jwtGenerator');
 
 
 // signup as a bidder
@@ -69,4 +70,48 @@ function validator(){
             min: 6
         }).withMessage("Password too short")
     ]
+}
+
+// signin bidder
+exports.bidderSignin = async (req, res) => {
+    // destructure request body
+    const {email, password} = req.body
+
+    // validate user and password field is not empty
+    if(!email || !password){
+        return res.status(400).json({
+            message: "Email/Password field cannot be empty",
+            status: false
+        })
+    }
+
+    // check if use exist in the db
+    const foundUser = await Bidder.findOne({
+        email: email
+    }).exec()
+
+    if(!foundUser){
+        res.status(401).json({
+            message: `Unauthenticated: User with email - ${email} does not exist`
+        })
+    }
+
+    // validate user password
+    const validPassword = await bcrypt.compare(password, foundUser.password);
+
+    // if user password is incorrect
+    if(!validPassword){
+       return res.status(401).json({
+            message: "Unauthenticated: Incorrect Password"
+        })
+    };
+
+    // generate jwt for user
+    const token = jwtGenerator(foundUser._id)
+
+    res.status(200).json({
+        message: `Logged in successfully as ${foundUser.username}`,
+        token: token
+    })
+
 }
