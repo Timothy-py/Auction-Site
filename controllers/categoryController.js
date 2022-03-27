@@ -5,9 +5,10 @@ const Category = require('../models/category').Category
 exports.createCategory = (req, res) => {
     Category.create({
         title: req.body.title
-    }).then(() => {
+    }).then((category) => {
         res.status(200).json({
-            message: 'Category created successfully'
+            message: 'Category created successfully',
+            data: category
         })
     }).catch(err => {
         res.status(500).json({

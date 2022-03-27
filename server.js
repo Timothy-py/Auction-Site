@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 
 // require routes
-const auction = require('./routes/auction');
+const routes = require('./routes/api');
 
 // activate express app
 const app = express();
@@ -16,7 +16,7 @@ app.use(cors());
 app.use(express.json());
 
 // base route
-app.use('/api', auction);
+app.use('/api', routes);
 
 // setup mongodb connection: connecting to mongo atlas
 const uri = process.env.ATLAS_URI;

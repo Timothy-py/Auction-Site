@@ -5,7 +5,11 @@ const Schema = mongoose.Schema;
 const bidder = new Schema({
     username: {
         type: String,
-        required:true,
+        required:true
+    },
+    email: {
+        type: String,
+        required: true,
         unique: true
     },
     password: {
