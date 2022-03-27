@@ -36,20 +36,42 @@ exports.createAuction = (req, res, next) => {
         Body: req.file.buffer
     }
 
-    // send image file to s3 bucket
+    // send image file to s3 bucket: response = data url
     s3.upload(params, async (error, data) => {
         if(error){
             res.status(500).send(error)
         }
 
+        // get request body data
         const title = req.body.title
         const start_time = req.body.start_time
         const end_time = req.body.end_time
         const image = data['Location']
-        const category = new Category({
-            title: req.body.category
-        })
 
+        const category_data = req.body.category.split(",")
+        // an array to store all auction categories in the right category schema
+        const category = []
+        // an array to store the auction categories that do not exist in the db and thus needs to be created
+        const category_to_create = []   
+
+        for (let i = 0; i < category_data.length; i++) {
+            category.push({title: category_data[i]})
+            
+            // check if the category with title=category_data[i] exist in the db
+            const foundCategory = await Category.findOne({
+                title: category_data[i]
+            }).exec()
+
+            // if it doesn't exist, push it to the array for creation
+            if(!foundCategory){
+                category_to_create.push({title: category_data[i]})
+            }
+        }
+
+        // create categories which do not exist
+        await Category.insertMany(category_to_create, (err, result)=>{})
+
+        // create the auction
         const auction = new Auction({
             title,
             start_time,

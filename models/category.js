@@ -13,6 +13,12 @@ const category = new Schema({
     timestamps: true    
 })
 
+// category.query.byTitle = function(title){
+//     return this.find({
+//         title: title
+//     })
+// }
+
 const Category = mongoose.model('Category', category)
 
 module.exports = {category, Category};
