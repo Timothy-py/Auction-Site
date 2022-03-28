@@ -1,4 +1,3 @@
-const res = require('express/lib/response');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
@@ -9,7 +8,7 @@ module.exports = (req, res, next) => {
 
         // if token is not provided: throw Error
         if(!userToken){
-            res.status(401).json({
+            return res.status(401).json({
                 message: "Unauthenticated: Provide token"
             })
         }
@@ -21,7 +20,7 @@ module.exports = (req, res, next) => {
         req.user = payload.user;
         next();
     } catch (error) {
-        res.status(401).json({
+        return res.status(401).json({
             message: `${error.message} || Unable to authenticate user`
         })
     }

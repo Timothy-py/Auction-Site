@@ -1,10 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-// import schemas
-const bidderSchema = require('./bidder')
-const auctionSchema = require('./auction')
-
 // configure bids db model
 const bid = new Schema({
     bidder_name: {
@@ -16,6 +12,10 @@ const bid = new Schema({
         required: true
     },
     auction_title: {
+        type: String,
+        required: true
+    },
+    image:{
         type: String,
         required: true
     },
