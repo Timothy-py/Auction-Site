@@ -6,6 +6,13 @@ const Bidder = require('../models/bidder');
 
 exports.createBid = async(req, res) => {
     const auction_id = req.params.auction_id
+    const price = req.body.price
+
+    if(!price){
+        return res.status(400).json({
+            message: "Please include your bidding price."
+        })
+    }
 
     // find the bidder
     const bidder = await Bidder.findById(req.user).exec()
@@ -35,6 +42,7 @@ exports.createBid = async(req, res) => {
         start_time: foundAuction.start_time,
         end_time: foundAuction.end_time,
         image: foundAuction.image,
+        price: price,
         category: auction_category
     })
 

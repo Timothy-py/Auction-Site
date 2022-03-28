@@ -19,6 +19,10 @@ const bid = new Schema({
         type: String,
         required: true
     },
+    price: {
+        type: Number,
+        required: true
+    },
     start_time:{
         type: Date,
         required: true
