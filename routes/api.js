@@ -4,7 +4,6 @@ const router = require('express').Router();
 const auctionController = require('../controllers/auctionController')
 const categoryController =  require('../controllers/categoryController')
 const bidderController = require('../controllers/bidderController')
-const bidController =  require('../controllers/bidController');
 
 // require middleware
 const upload = require('../middleware/image_upload');
@@ -32,7 +31,5 @@ router.post('/bidder/signup', bidderController.bidderSignup);
 // signin bidder
 router.post('/bidder/signin', bidderController.bidderSignin);
 
-// create a bid
-router.post('/bid/:auction_id', authenticator, bidController.createBid);
 
 module.exports = router;
