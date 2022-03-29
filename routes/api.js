@@ -20,6 +20,9 @@ router.get('/auction', auctionController.getAllAuctions);
 // create an auction
 router.post('/auction', authenticator, upload, auctionController.createAuction);
 
+// bid for an auction
+router.patch('/auction/:auction_id/bid', authenticator, auctionController.bidAuction);
+
 // CATEGORY ROUTES
 router.post('/category', categoryController.createCategory);
 

@@ -3,12 +3,8 @@ const Schema = mongoose.Schema;
 
 // configure bids db model
 const bid = new Schema({
-    bidder_name: {
-        type: String,
-        required: true
-    },
-    bidder_email: {
-        type: String,
+    bidders: {
+        type: Array,
         required: true
     },
     auction_title: {

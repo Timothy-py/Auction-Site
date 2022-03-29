@@ -27,6 +27,10 @@ const auction = new Schema({
     image: {
         type: String,
         required: true
+    },
+    bidders: {
+        type: Array,
+        required: false
     }
 }, {
     timestamps: true

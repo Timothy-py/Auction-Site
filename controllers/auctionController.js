@@ -99,3 +99,49 @@ exports.createAuction = (req, res, next) => {
             })
     })
 }
+
+
+// bid for an auction item
+exports.bidAuction = async (req, res) => {
+    const auction_id = req.params.auction_id
+    const price = req.body.price
+
+    if(!price){
+        return res.status(400).json({
+            message: "Please include your bidding price."
+        })
+    }
+
+    // find the bidder
+    const bidder = await Bidder.findById(req.user).exec()
+
+    // find the auction
+    const auction = await Auction.findById(auction_id, 'bidders').exec()
+
+    // if the auction with the specified id cannot be found in the db
+    if(!auction){
+        return res.status(404).json({
+            message: `The requested Auction with _id-${auction_id} does not exist.`
+        })
+    }
+
+    // set bidder info
+    const bidderInfo = {
+        username: bidder.username,
+        email: bidder.email,
+        price: price
+    }
+
+    // update auction
+    auction.bidders.push(bidderInfo)
+    await auction.save()
+        .then((data) => {
+            res.satus(200).json({
+                message: 'Bid successfully',
+                data: data
+            })
+        })
+        .catch((error) => {
+            message: `${error.status} - ${error.message} || 'Unable to bid'`
+        })
+}
