@@ -18,7 +18,7 @@ const authenticator = require('../middleware/authenticator');
 router.get('/auction', auctionController.getAllAuctions);
 
 // create an auction
-router.post('/auction', upload, auctionController.createAuction);
+router.post('/auction', authenticator, upload, auctionController.createAuction);
 
 // CATEGORY ROUTES
 router.post('/category', categoryController.createCategory);

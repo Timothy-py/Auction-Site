@@ -11,6 +11,11 @@ const auction = new Schema({
         unique:true
     },
     category: [categorySchema],
+    seller: {
+        type: Map,
+        of: String,
+        required: true
+    },
     start_time: {
         type: Date,
         required:true,

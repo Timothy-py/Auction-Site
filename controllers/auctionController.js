@@ -4,6 +4,7 @@ const { uuid } = require('uuidv4');
 // get auction model object
 const Auction = require('../models/auction');
 const Category = require('../models/category').Category
+const Bidder = require('../models/bidder');
 
 
 // list all auctions
@@ -42,10 +43,11 @@ exports.createAuction = (req, res, next) => {
             res.status(500).send(error)
         }
 
+        // get authenticated user email and username
+        const user = await Bidder.findById(req.user).exec()
+
         // get request body data
-        const title = req.body.title
-        const start_time = req.body.start_time
-        const end_time = req.body.end_time
+        const {title, start_time, end_time} = req.body;
         const image = data['Location']
 
         const category_data = req.body.category.split(",")
@@ -77,8 +79,11 @@ exports.createAuction = (req, res, next) => {
             start_time,
             end_time,
             image,
-            category
+            category,
+            seller: {}
         });
+        auction.seller.set('username', user.username)
+        auction.seller.set('email', user.email)
 
         await auction.save()
             .then((data) => {
