@@ -112,9 +112,6 @@ exports.bidAuction = async (req, res) => {
         })
     }
 
-    // find the bidder
-    const bidder = await Bidder.findById(req.user).exec()
-
     // find the auction
     const auction = await Auction.findById(auction_id, 'bidders').exec()
 
@@ -125,23 +122,52 @@ exports.bidAuction = async (req, res) => {
         })
     }
 
-    // set bidder info
-    const bidderInfo = {
-        username: bidder.username,
-        email: bidder.email,
-        price: price
-    }
+    // find the bidder
+    const bidder = await Bidder.findById(req.user).exec()
 
-    // update auction
-    auction.bidders.push(bidderInfo)
-    await auction.save()
-        .then((data) => {
-            res.satus(200).json({
-                message: 'Bid successfully',
-                data: data
-            })
-        })
-        .catch((error) => {
-            message: `${error.status} - ${error.message} || 'Unable to bid'`
-        })
+    
+    let auctionBidders = auction.bidders
+    const totalBidders = auctionBidders.length;
+
+    // check if bidder already bid for this auction
+    for(let i=0; i<totalBidders; i++){
+        const bidderData = auctionBidders[i]
+        if(bidderData.email == bidder.email){
+            // update the price
+            const response = await Auction.updateOne(
+                {_id: auction_id, "bidders.email": bidder.email},
+                {$set: {'bidders.$.price': price}}
+            )
+            if(response){
+                res.status(200).json({
+                    message: 'Bid updated successfully'
+                })
+            }else{
+                res.status(500).json({
+                    message: `${response.message || 'Unable to bid'}`
+                })
+            }
+        }else{ // add a new bidder
+
+            // set bidder info
+            const bidderInfo = {
+                username: bidder.username,
+                email: bidder.email,
+                price: price
+            }
+
+            auction.bidders.push(bidderInfo)
+            const response = await auction.save()
+            if(response){
+                res.status(200).json({
+                    message: 'Bid successfully',
+                    data: response
+                })
+            }else{
+                res.status(500).json({
+                    message: `${response.message || 'Unable to bid'}`
+                })
+            }
+        }
+    }
 }
