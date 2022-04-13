@@ -47,7 +47,7 @@ exports.createAuction = (req, res, next) => {
         const user = await Bidder.findById(req.user).exec()
 
         // get request body data
-        const {title, start_time, end_time} = req.body;
+        const {title, start_time, end_time, base_price, description} = req.body;
         const image = data['Location']
 
         const category_data = req.body.category.split(",")
@@ -76,6 +76,8 @@ exports.createAuction = (req, res, next) => {
         // create the auction
         const auction = new Auction({
             title,
+            base_price,
+            description,
             start_time,
             end_time,
             image,

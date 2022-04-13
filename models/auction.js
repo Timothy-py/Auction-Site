@@ -10,6 +10,14 @@ const auction = new Schema({
         required:true,
         unique:true
     },
+    base_price: {
+        type: Number,
+        required: [true, 'Please add a base price']
+    },
+    description: {
+        type: String,
+        required: false
+    },
     category: [categorySchema],
     seller: {
         type: Map,
