@@ -128,46 +128,46 @@ exports.bidAuction = async (req, res) => {
     
     let auctionBidders = auction.bidders
     const totalBidders = auctionBidders.length;
-
-    // check if bidder already bid for this auction
+    const biddersEmail = []
     for(let i=0; i<totalBidders; i++){
-        const bidderData = auctionBidders[i]
-        if(bidderData.email == bidder.email){
-            // update the price
-            const response = await Auction.updateOne(
-                {_id: auction_id, "bidders.email": bidder.email},
-                {$set: {'bidders.$.price': price}}
-            )
-            if(response){
-                res.status(200).json({
-                    message: 'Bid updated successfully'
-                })
-            }else{
-                res.status(500).json({
-                    message: `${response.message || 'Unable to bid'}`
-                })
-            }
-        }else{ // add a new bidder
+        biddersEmail.push(auctionBidders[i].email)
+    }
 
-            // set bidder info
-            const bidderInfo = {
-                username: bidder.username,
-                email: bidder.email,
-                price: price
-            }
+    // add a new bidder
+    if(totalBidders == 0 || !biddersEmail.includes(bidder.email)){
+        // set bidder info
+        const bidderInfo = {
+            username: bidder.username,
+            email: bidder.email,
+            price: price
+        }
 
-            auction.bidders.push(bidderInfo)
-            const response = await auction.save()
-            if(response){
-                res.status(200).json({
-                    message: 'Bid successfully',
-                    data: response
-                })
-            }else{
-                res.status(500).json({
-                    message: `${response.message || 'Unable to bid'}`
-                })
-            }
+        auction.bidders.push(bidderInfo)
+        const response = await auction.save()
+        if(response){
+            return res.status(200).json({
+                message: 'Bid successfully',
+                data: response
+            })
+        }else{
+            return res.status(500).json({
+                message: `${response.message || 'Unable to bid'}`
+            })
+        }
+    }else{
+        // update the price
+        const response = await Auction.updateOne(
+            {_id: auction_id, "bidders.email": bidder.email},
+            {$set: {'bidders.$.price': price}}
+        )
+        if(response){
+            res.status(200).json({
+                message: 'Bid updated successfully'
+            })
+        }else{
+            res.status(500).json({
+                message: `${response.message || 'Unable to bid'}`
+            })
         }
     }
 }
