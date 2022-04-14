@@ -173,3 +173,39 @@ exports.bidAuction = async (req, res) => {
         }
     }
 }
+
+// delete an auction item
+exports.deleteAuction = async (req, res) => {
+    const auction_id = req.params.auction_id
+
+    // find the current user
+    const bidder = await Bidder.findById(req.user).exec();
+
+    // find the auction seller
+    const auction = await Auction.findById(auction_id, 'seller').exec()
+
+    if(!auction){
+        return res.status(404).json({
+            message: 'The Auction does not exist'
+        })
+    }
+
+    // check if curent user is the seller
+    if(!(bidder.email == auction.seller.get('email'))){
+        return res.status(403).json({
+            message: 'Unauthorised: You are not the seller of this Auction'
+        })
+    }
+
+    const query = await auction.remove();
+
+    if(query.$isDeleted()){
+        return res.status(200).json({
+            message: 'Auction deleted successfully'
+        })
+    }else{
+        return res.status(500).json({
+            message: `${query} || 'Unable to delete auction'`
+        })
+    }
+}
