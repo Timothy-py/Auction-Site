@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const Auction = require('../models/auction');
 
 // configure category Schema
 const category = new Schema({
@@ -7,7 +8,13 @@ const category = new Schema({
         type: String,
         required: true,
         unique:true
-    }
+    },
+    auctions: [
+        {
+            type: ObjectId,
+            ref: Auction
+        }
+    ]
 }, {
     // schema options
     timestamps: true    
