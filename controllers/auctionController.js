@@ -209,3 +209,21 @@ exports.deleteAuction = async (req, res) => {
         })
     }
 }
+
+// retrieve an auction item
+exports.getAuction = async (req, res) => {
+    const auction_id = req.params.auction_id
+
+    const query = await Auction.findById(auction_id).exec()
+
+    if(query){
+        return res.status(200).json({
+            message: "Auction retrieved successfully",
+            data: query
+        })
+    }else{
+        return res.status(500).json({
+            message: `${query} || Auction does not exist`
+        })
+    }
+}

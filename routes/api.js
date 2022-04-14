@@ -26,6 +26,7 @@ router.patch('/auction/:auction_id/bid', authenticator, auctionController.bidAuc
 router.delete('/auction/:auction_id', authenticator, auctionController.deleteAuction);
 
 // retrieve an auction item
+router.get('/auction/:auction_id', auctionController.getAuction);
 
 // retrieve auctions in a particular category
 
