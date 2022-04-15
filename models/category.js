@@ -9,12 +9,10 @@ const category = new Schema({
         required: true,
         unique:true
     },
-    auctions: [
-        {
-            type: ObjectId,
-            ref: Auction
-        }
-    ]
+    auctions: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Auction'
+    }]
 }, {
     // schema options
     timestamps: true    

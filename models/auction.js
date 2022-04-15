@@ -18,7 +18,10 @@ const auction = new Schema({
         type: String,
         required: false
     },
-    category: [categorySchema],
+    category: {
+        type: Array,
+        required: [true, 'Specify a category for this Auction']
+    },
     seller: {
         type: Map,
         of: String,
