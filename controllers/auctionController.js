@@ -26,6 +26,7 @@ const s3 = new AWS.S3({
     secretAccessKey: process.env.AWS_SECRET
 })
 
+
 // create an auction
 exports.createAuction = (req, res, next) => {
     let image = req.file.originalname.split(".")
@@ -43,64 +44,73 @@ exports.createAuction = (req, res, next) => {
             res.status(500).send(error)
         }
 
-        // get authenticated user email and username
-        const user = await Bidder.findById(req.user).exec()
+        try {
+            // get authenticated user email and username
+            const user = await Bidder.findById(req.user).exec()
 
-        // get request body data
-        const {title, start_time, end_time, base_price, description} = req.body;
-        const image = data['Location']
+            // get request body data
+            const {title, start_time, end_time, base_price, description} = req.body;
+            const image = data['Location']
 
-        const category_data = req.body.category.split(",")
-        // an array to store all auction categories in the right category schema
-        const category = []
-        // an array to store the auction categories that do not exist in the db and thus needs to be created
-        const category_to_create = []   
+            const category_data = req.body.category.split(",")
+            // an array to store all auction categories in the right category schema
 
-        for (let i = 0; i < category_data.length; i++) {
-            category.push({title: category_data[i]})
-            
-            // check if the category with title=category_data[i] exist in the db
-            const foundCategory = await Category.findOne({
-                title: category_data[i]
-            }).exec()
-
-            // if it doesn't exist, push it to the array for creation
-            if(!foundCategory){
-                category_to_create.push({title: category_data[i]})
+            // ***********************************************
+            // create the auction
+            const auction = new Auction({
+                title,
+                base_price,
+                description,
+                start_time,
+                end_time,
+                image,
+                category: [],
+                seller: {}
+            });
+            auction.seller.set('username', user.username)
+            auction.seller.set('email', user.email)
+            for (let i = 0; i < category_data.length; i++){
+                auction.category.push(category_data[i])
             }
+
+            const saveAuction = await auction.save()
+            const auction_id = saveAuction._id
+            
+            for (let i = 0; i < category_data.length; i++) {
+                
+                // check if the category with title=category_data[i] exist in the db
+                const foundCategory = await Category.findOne({
+                    title: category_data[i]
+                }).exec()
+
+                // if category exists
+                if(foundCategory){
+                    foundCategory.auctions.push(auction_id)
+                    await foundCategory.save()
+                }else{
+                    // create category and add auction
+                    const category = new Category({
+                        title: category_data[i],
+                        auctions: []
+                    })
+                    category.auctions.push(auction_id)
+                    await category.save()
+                }
+            }
+
+            return res.status(201).json({
+                message: "Auction created successfully",
+                data: saveAuction
+            })
+        } catch (error) {
+            return res.status(500).json({
+                message: 'Unable to create auction',
+                error: error.message
+            })
         }
-
-        // create categories which do not exist
-        await Category.insertMany(category_to_create, (err, result)=>{})
-
-        // create the auction
-        const auction = new Auction({
-            title,
-            base_price,
-            description,
-            start_time,
-            end_time,
-            image,
-            category,
-            seller: {}
-        });
-        auction.seller.set('username', user.username)
-        auction.seller.set('email', user.email)
-
-        await auction.save()
-            .then((data) => {
-                res.status(201).json({
-                    message: "Auction created successfully",
-                    data: data
-                })
-            })
-            .catch((err) => {
-                res.status(500).json({
-                    message: `${err.status} - ${err.message}`
-                })
-            })
     })
 }
+
 
 
 // bid for an auction item
