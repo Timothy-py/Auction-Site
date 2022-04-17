@@ -28,12 +28,16 @@ router.delete('/auction/:auction_id', authenticator, auctionController.deleteAuc
 // retrieve an auction item
 router.get('/auction/:auction_id', auctionController.getAuction);
 
-// retrieve auctions in a particular category
 
 // List all bids for a particular user
 
+// List all auctions of a particular user
+
 // CATEGORY ROUTES
 router.post('/category', categoryController.createCategory);
+
+// retrieve auctions in a particular category
+router.get('/category/:category/auctions', categoryController.getAuctions);
 
 // signup bidder
 router.post('/bidder/signup', bidderController.bidderSignup);
