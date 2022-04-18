@@ -29,8 +29,6 @@ router.delete('/auction/:auction_id', authenticator, auctionController.deleteAuc
 router.get('/auction/:auction_id', auctionController.getAuction);
 
 
-// List all bids for a particular user
-
 // track the number of bidders for an auction
 
 // CATEGORY ROUTES
@@ -51,6 +49,8 @@ router.post('/bidder/signin', bidderController.bidderSignin);
 // List all auctions of a particular bidder
 router.get('/bidder/myauctions', authenticator, bidderController.myAuctions);
 
+// List all bids for a particular user
+router.get('/bidder/mybids', authenticator, bidderController.myBids);
 
 
 module.exports = router;

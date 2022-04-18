@@ -20,6 +20,10 @@ const bidder = new Schema({
     auctions: [{
         type: auctionSchema,
         required: false
+    }],
+    bids: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Auction'
     }]
 }, {
     timestamps: true

@@ -132,3 +132,20 @@ exports.myAuctions = async (req, res) => {
         })
     }
 }
+
+// retrieve all my bids
+exports.myBids =  async (req, res) => {
+    try {
+        const my_bids = await Bidder
+                                .findById(req.user, 'bids')
+                                .populate({path: 'bids', populate: {path: 'bids'}}).exec()
+        return res.status(200).json({
+            message: 'All your bids retrieve successfully',
+            data: my_bids
+        })
+    } catch (error) {
+        return res.status(500).json({
+            message: `${error} || 'Unable to retrieve your bids'`
+        })
+    }
+}
