@@ -13,6 +13,9 @@ const authenticator = require('../middleware/authenticator');
 
 // AUCTION ROUTES
 
+// List all auctions of a particular user
+router.get('/auction/myauctions', authenticator, auctionController.myAuctions);
+
 // get all users
 router.get('/auction', auctionController.getAllAuctions);
 
@@ -31,7 +34,7 @@ router.get('/auction/:auction_id', auctionController.getAuction);
 
 // List all bids for a particular user
 
-// List all auctions of a particular user
+// track the number of bidders for an auction
 
 // CATEGORY ROUTES
 router.post('/category', categoryController.createCategory);
