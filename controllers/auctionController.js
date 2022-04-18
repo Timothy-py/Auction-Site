@@ -2,7 +2,7 @@ const AWS = require('aws-sdk');
 const { uuid } = require('uuidv4');
 
 // get auction model object
-const Auction = require('../models/auction');
+const Auction = require('../models/auction').Auction;
 const Category = require('../models/category').Category
 const Bidder = require('../models/bidder');
 
@@ -67,15 +67,17 @@ exports.createAuction = (req, res, next) => {
                 category: [],
                 seller: {}
             });
-            auction.seller.set('username', user.username)
+            // auction.seller.set('username', user.username)
             auction.seller.set('email', user.email)
             for (let i = 0; i < category_data.length; i++){
                 auction.category.push(category_data[i])
             }
 
+            // create auction
             const saveAuction = await auction.save()
             const auction_id = saveAuction._id
             
+            // save auction data into Category
             for (let i = 0; i < category_data.length; i++) {
                 
                 // check if the category with title=category_data[i] exist in the db
@@ -97,6 +99,10 @@ exports.createAuction = (req, res, next) => {
                     await category.save()
                 }
             }
+
+            //save auction data into Bidder
+            user.auctions.push(auction)
+            await user.save();
 
             return res.status(201).json({
                 message: "Auction created successfully",

@@ -1,8 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const categorySchema = require('./category').category
-
 // configure auction db model
 const auction = new Schema({
     title: {
@@ -50,4 +48,4 @@ const auction = new Schema({
 // convert auction schema to a model
 const Auction = mongoose.model('Auction', auction)
 
-module.exports = Auction;
+module.exports = {Auction, auction};
