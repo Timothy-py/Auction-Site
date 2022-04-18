@@ -153,38 +153,40 @@ exports.bidAuction = async (req, res) => {
 
     // add a new bidder
     if(totalBidders == 0 || !biddersEmail.includes(bidder.email)){
-        // set bidder info
-        const bidderInfo = {
-            username: bidder.username,
-            email: bidder.email,
-            price: price
-        }
 
-        auction.bidders.push(bidderInfo)
-        const response = await auction.save()
-        if(response){
+        try {
+            // set bidder info
+            const bidderInfo = {
+                // username: bidder.username,
+                email: bidder.email,
+                price: price
+            }
+            auction.bidders.push(bidderInfo)
+            const response = await auction.save()
+            
             return res.status(200).json({
                 message: 'Bid successfully',
                 data: response
             })
-        }else{
+        } catch (error) {
             return res.status(500).json({
-                message: `${response.message || 'Unable to bid'}`
-            })
+                message: `${error} || 'Unable to bid'}`
+            })   
         }
     }else{
-        // update the price
-        const response = await Auction.updateOne(
-            {_id: auction_id, "bidders.email": bidder.email},
-            {$set: {'bidders.$.price': price}}
-        )
-        if(response){
-            res.status(200).json({
+        try {
+            // update the price
+            const response = await Auction.updateOne(
+                {_id: auction_id, "bidders.email": bidder.email},
+                {$set: {'bidders.$.price': price}}
+            )
+
+            return res.status(200).json({
                 message: 'Bid updated successfully'
             })
-        }else{
-            res.status(500).json({
-                message: `${response.message || 'Unable to bid'}`
+        } catch (error) {
+            return res.status(500).json({
+                message: `${error} || 'Unable to bid'`
             })
         }
     }
