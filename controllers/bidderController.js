@@ -113,5 +113,22 @@ exports.bidderSignin = async (req, res) => {
         message: `Logged in successfully as ${foundUser.username}`,
         token: token
     })
+}
 
+
+// retrieve all my Auctions
+exports.myAuctions = async (req, res) => {
+    try {
+        const my_auctions = await Bidder.findById(req.user, 'auctions').exec()
+
+        return res.status(200).json({
+            message: 'All your Auctions retrieved successfully',
+            data: my_auctions
+        })
+    } catch (error) {
+        return res.status(500).json({
+            message: 'Unable to retrieve your auctions',
+            error: error
+        })
+    }
 }
