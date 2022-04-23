@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const Auction = require('../models/auction');
 
 // configure category Schema
 const category = new Schema({

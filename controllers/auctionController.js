@@ -163,6 +163,10 @@ exports.bidAuction = async (req, res) => {
             }
             auction.bidders.push(bidderInfo)
             const response = await auction.save()
+
+            // save bid into Bidder object
+            bidder.bids.push(auction._id)
+            await bidder.save()
             
             return res.status(200).json({
                 message: 'Bid successfully',
@@ -176,7 +180,7 @@ exports.bidAuction = async (req, res) => {
     }else{
         try {
             // update the price
-            const response = await Auction.updateOne(
+            await Auction.updateOne(
                 {_id: auction_id, "bidders.email": bidder.email},
                 {$set: {'bidders.$.price': price}}
             )

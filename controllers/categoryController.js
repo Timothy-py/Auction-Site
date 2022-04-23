@@ -19,7 +19,7 @@ exports.createCategory = (req, res) => {
 }
 
 
-// get alll auctions in a category
+// get all auctions in a category
 exports.getAuctions = async (req, res) => {
     const category = req.params.category;
     try {
