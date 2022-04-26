@@ -14,16 +14,6 @@ const options = {
                 "email": "adeyeyetimothy33@gmail.com"
             }
         },
-        components:{
-            securitySchemas: {
-                ApiKeyAuth: {
-                    type: "apiKey",
-                    description: "API key for authorization",
-                    name: "token",
-                    in: "header"
-                }
-            }
-        },
         servers: [
             {
                 url: "http://localhost:5000/api",

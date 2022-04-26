@@ -31,6 +31,17 @@
 
 /**
  * @openapi
+ * components:
+ *  securitySchemes:
+ *      ApiKeyAuth:
+ *          type: apiKey
+ *          in: header
+ *          name: token
+ *          description: API key for Authorization
+ */
+
+/**
+ * @openapi
  * /bidder/signup:
  *  post:
  *      tags:
