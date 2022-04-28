@@ -174,7 +174,7 @@ exports.bidAuction = async (req, res) => {
             })
         } catch (error) {
             return res.status(500).json({
-                message: `${error} || 'Unable to bid'}`
+                message: `${error} || 'Unable to bid'`
             })   
         }
     }else{
@@ -245,7 +245,7 @@ exports.getAuction = async (req, res) => {
         })
     }else{
         return res.status(500).json({
-            message: `${query} || Auction does not exist`
+            message: `${query} || Unable to retrieve Auction Item`
         })
     }
 }

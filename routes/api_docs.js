@@ -27,6 +27,82 @@
  *          bids:
  *              type: array
  *              default: []
+ *          timestamps:
+ *              type: string
+ *              example: 2022-04-28T19:53:40.955Z
+ *  */
+
+/**
+ * @openapi
+ * components:
+ *  schemas:
+ *   Auction:
+ *    type: object
+ *    required:
+ *     - title
+ *     - base_price
+ *     - description
+ *     - category
+ *     - start_time
+ *     - end_time
+ *     - image
+ *    properties:
+ *          _id:
+ *              type: string
+ *              example: 6kdsjflksdfkljd9
+ *          title:
+ *              type: string
+ *              example: Peugeot 504
+ *          base_price:
+ *              type: number
+ *              example: 5400
+ *          description:
+ *              type: string
+ *              example: classic 2000s motor car
+ *          category:
+ *              type: array
+ *              example: ['Automobile']
+ *          seller:
+ *              type: object
+ *              example: {'email': 'user@gmail.com'}
+ *          start_time:
+ *              type: string
+ *              example: 2022-04-28T19:53:40.955Z
+ *          end_time:
+ *              type: string
+ *              example: 2022-04-28T19:53:40.955Z
+ *          image:
+ *              type: string
+ *              example: Peugeot504.jpg
+ *          bidders:
+ *              type: array
+ *              example: {"email": "user@gmail.com", "price": 1200}
+ *          timestamps:
+ *              type: string
+ *              example: 2022-04-28T19:53:40.955Z
+ *  */
+
+/**
+ * @openapi
+ * components:
+ *  schemas:
+ *   Category:
+ *    type: object
+ *    required:
+ *     - title
+ *    properties:
+ *          _id:
+ *              type: string
+ *              example: 6kdsjflksdfkljd9
+ *          title:
+ *              type: string
+ *              example: Technology
+ *          auctions:
+ *              type: array
+ *              example: ["625a05666a1ff4726fae3c89"]
+ *          timestamps:
+ *              type: string
+ *              example: 2022-04-28T19:53:40.955Z
  *  */
 
 /**
@@ -124,11 +200,78 @@
  *                      schema: 
  *                          type: array 
  *                          items: 
- *                              $ref: '#/components/schemas/Bidder'
+ *                              $ref: '#/components/schemas/Auction'
  *          500:
  *              description: unable to retrieve all your auctions    
  */
 
+
+/**
+ * @openapi
+ * /bidder/mybids:
+ *  get:
+ *      tags:
+ *      - Bidder
+ *      summary: List all bids of a signed in bidder
+ *      security:
+ *          - ApiKeyAuth: []
+ *      responses:
+ *          200:
+ *              description: an array of all user bids`
+ *              content:
+ *                  application/json:
+ *                      schema: 
+ *                          type: array 
+ *                          items: 
+ *                              $ref: '#/components/schemas/Auction'
+ *          500:
+ *              description: unable to retrieve all your bids
+ */
+
+
+/**
+ * @openapi
+ * /auction:
+ *  post:
+ *      tags:
+ *      - Auction
+ *      summary: Create an Auction item
+ *      security:
+ *          - ApiKeyAuth: []
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                          title:
+ *                              type: string
+ *                          base_price:
+ *                              type: number
+ *                          description:
+ *                              type: string
+ *                          start_time:
+ *                              type: string
+ *                          end_time:
+ *                              type: string
+ *                          category:
+ *                              type: string
+ *                              example: Database,Technology
+ *                          image:
+ *                              type: string
+ *      responses:
+ *          201:
+ *              description: Auction created successfully
+ *              content:
+ *                  application/json:
+ *                      schema: 
+ *                          type: object
+ *                          items:
+ *                              $ref: '#/components/schemas/Auction'
+ *          500:
+ *              description: Unable to create auction
+ */
 
 
 /**
@@ -136,7 +279,7 @@
  * /auctions:
  *  get:
  *      tags:
- *      - Auctions
+ *      - Auction
  *      summary: returns all auctions in the database
  *      responses:
  *          200:
@@ -146,7 +289,73 @@
  *                      schema: 
  *                          type: array 
  *                          items: 
- *                              $ref: '#/components/schemas/Bidder'
+ *                              $ref: '#/components/schemas/Auction'
  *          500:
  *              description: unable to retrieve all auctions    
+ */
+
+/**
+ * @openapi
+ * /auction/{auction_id}/bid:
+ *  patch:
+ *      tags:
+ *      - Auction
+ *      summary: Bid for an auction item
+ *      parameters:
+ *          - in: path
+ *            name: auction_id
+ *            schema:
+ *              type: string 
+ *              required: true
+ *      security:
+ *          - ApiKeyAuth: []
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                          price:
+ *                              type: number
+ *      responses:
+ *          200:
+ *              description: Bid successfully
+ *              content:
+ *                  application/json:
+ *                      schema: 
+ *                          type: object
+ *                          items:
+ *                              $ref: '#/components/schemas/Auction'
+ *          400:
+ *              description: Please include your bidding price.
+ *          500:
+ *              description: Unable to bid
+ */
+
+
+/**
+ * @openapi
+ * /auction/{auction_id}:
+ *  get:
+ *      tags:
+ *      - Auction
+ *      summary: retrieve an auction item
+ *      parameters:
+ *          - in: path
+ *            name: auction_id
+ *            schema:
+ *              type: string 
+ *              required: true
+ *      responses:
+ *          200:
+ *              description: Auction retrieved successfully
+ *              content:
+ *                  application/json:
+ *                      schema: 
+ *                          type: object 
+ *                          items: 
+ *                              $ref: '#/components/schemas/Auction'
+ *          500:
+ *              description: unable to retrieve all auction
  */
