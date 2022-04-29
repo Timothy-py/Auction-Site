@@ -274,7 +274,7 @@
 
 /**
  * @openapi
- * /auctions:
+ * /auction:
  *  get:
  *      tags:
  *      - Auction
