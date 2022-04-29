@@ -50,7 +50,7 @@ exports.bidderSignup = [
             })
         }).catch((error) => {
             res.status(500).json({
-                message: `${err.status} - ${err.message || "Unable to signup"}`
+                message: `${error} "Unable to signup"`
             })
         })
     }
