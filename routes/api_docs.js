@@ -142,9 +142,8 @@
  *              content:
  *                  application/json:
  *                      schema: 
- *                          type: object 
- *                          items: 
- *                              $ref: '#/components/schemas/Bidder'
+ *                          type: object
+ *                          $ref: '#/components/schemas/Bidder'
  *          500:
  *              description: unable to signup
  */
@@ -267,8 +266,7 @@
  *                  application/json:
  *                      schema: 
  *                          type: object
- *                          items:
- *                              $ref: '#/components/schemas/Auction'
+ *                          $ref: '#/components/schemas/Auction'
  *          500:
  *              description: Unable to create auction
  */
@@ -325,8 +323,7 @@
  *                  application/json:
  *                      schema: 
  *                          type: object
- *                          items:
- *                              $ref: '#/components/schemas/Auction'
+ *                          $ref: '#/components/schemas/Auction'
  *          400:
  *              description: Please include your bidding price.
  *          500:
@@ -354,8 +351,88 @@
  *                  application/json:
  *                      schema: 
  *                          type: object 
- *                          items: 
- *                              $ref: '#/components/schemas/Auction'
+ *                          $ref: '#/components/schemas/Auction'
  *          500:
  *              description: unable to retrieve all auction
+ */
+
+
+/**
+ * @openapi
+ * /auction/{auction_id}:
+ *  delete:
+ *      tags:
+ *      - Auction
+ *      summary: delete an auction item
+ *      security:
+ *          - ApiKeyAuth: []
+ *      parameters:
+ *          - in: path
+ *            name: auction_id
+ *            schema:
+ *              type: string 
+ *              required: true
+ *      responses:
+ *          200:
+ *              description: Auction deleted successfully
+ *          403:
+ *              description: Unauthorised - You are not the seller of this Auction
+ *          404:
+ *              description: The Auction does not exist
+ *          500:
+ *              description: unable to delete auction
+ */
+
+/**
+ * @openapi
+ * /category:
+ *  post:
+ *      tags:
+ *      - Category
+ *      summary: Create a Category item
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                          title:
+ *                              type: string
+ *      responses:
+ *          201:
+ *              description: Category created successfully
+ *              content:
+ *                  application/json:
+ *                      schema: 
+ *                          type: object
+ *                          $ref: '#/components/schemas/Category'
+ *          500:
+ *              description: Unable to create cateegory
+ */
+
+/**
+ * @openapi
+ * /category/{category}/auctions:
+ *  get:
+ *      tags:
+ *      - Category
+ *      summary: retrieve all auctions in a category
+ *      parameters:
+ *          - in: path
+ *            name: category
+ *            schema:
+ *              type: string 
+ *              required: true
+ *      responses:
+ *          200:
+ *              description: All auctions in category retrieved successfully
+ *              content:
+ *                  application/json:
+ *                      schema: 
+ *                          type: array
+ *                          items:
+ *                              $ref: '#/components/schemas/Auction'
+ *          500:
+ *              description: unable to retrieve category auctions
  */
