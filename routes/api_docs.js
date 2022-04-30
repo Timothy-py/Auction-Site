@@ -240,7 +240,7 @@
  *      requestBody:
  *          required: true
  *          content:
- *              application/json:
+ *              multipart/form-data:
  *                  schema:
  *                      type: object
  *                      properties:
@@ -259,6 +259,7 @@
  *                              example: Database,Technology
  *                          image:
  *                              type: string
+ *                              format: binary
  *      responses:
  *          201:
  *              description: Auction created successfully
