@@ -19,17 +19,20 @@ app.use(express.json());
 // base route
 app.use('/api', routes);
 
-// setup mongodb connection: connecting to mongo atlas
-const uri = process.env.ATLAS_URI;
+const connectDB = async () => {
+    // setup mongodb connection: connecting to mongo atlas
+    const uri = process.env.ATLAS_URI;
 
-mongoose.connect(uri, {useNewUrlParser:true, useCreateIndex: true, useUnifiedTopology:true});
-const connection = mongoose.connection;
-connection.once('open', ()=>{
-    console.log('MongoDB Database connection established successfully');
-})
+    await mongoose.connect(uri, {useNewUrlParser:true, useCreateIndex: true, useUnifiedTopology:true});
+    const connection = mongoose.connection;
+    connection.once('open', ()=>{
+        console.log('MongoDB Database connection established successfully');
+    })
+}
 
 
 app.listen(port, ()=>{
+    connectDB()
     console.log(`Server is running on port: ${port}`);
     swaggerDocs(app, port);
 });

@@ -44,7 +44,7 @@ exports.bidderSignup = [
             email: email,
             password: encryptedPassword
         }).then((bidder) => {
-            res.status(200).json({
+            res.status(201).json({
                 message: 'Bidder created successfully',
                 data: bidder
             })
