@@ -8,6 +8,7 @@ const bidderController = require('../controllers/bidderController')
 // require middleware
 const upload = require('../middleware/image_upload');
 const authenticator = require('../middleware/authenticator');
+const checkCache = require('../middleware/checkCache');
 
 
 
@@ -26,7 +27,7 @@ router.patch('/auction/:auction_id/bid', authenticator, auctionController.bidAuc
 router.delete('/auction/:auction_id', authenticator, auctionController.deleteAuction);
 
 // retrieve an auction item
-router.get('/auction/:auction_id', auctionController.getAuction);
+router.get('/auction/:auction_id', checkCache, auctionController.getAuction);
 
 
 // track the number of bidders for an auction

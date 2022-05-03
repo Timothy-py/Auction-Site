@@ -1,5 +1,6 @@
 const AWS = require('aws-sdk');
 const { uuid } = require('uuidv4');
+const redis = require('../utils/redis');
 
 // get auction model object
 const Auction = require('../models/auction').Auction;
@@ -239,6 +240,9 @@ exports.getAuction = async (req, res) => {
     const query = await Auction.findById(auction_id).exec()
 
     if(query){
+        // cache the auction item
+        await redis.set(auction_id, JSON.stringify(query))
+
         return res.status(200).json({
             message: "Auction retrieved successfully",
             data: query
