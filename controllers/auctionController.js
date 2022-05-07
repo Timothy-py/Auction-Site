@@ -242,6 +242,7 @@ exports.getAuction = async (req, res) => {
     if(query){
         // cache the auction item
         await redis.set(auction_id, JSON.stringify(query))
+        redis.disconnect()
 
         return res.status(200).json({
             message: "Auction retrieved successfully",
