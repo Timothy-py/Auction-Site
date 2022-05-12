@@ -54,4 +54,8 @@ router.get('/bidder/myauctions', authenticator, bidderController.myAuctions);
 router.get('/bidder/mybids', authenticator, bidderController.myBids);
 
 
+
 module.exports = router;
+
+
+// *****************IMPLEMENT PAGINATION*******************************

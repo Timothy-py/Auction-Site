@@ -220,7 +220,10 @@ exports.deleteAuction = async (req, res) => {
         })
     }
 
+    // remove auction from DB
     const query = await auction.remove();
+    // remove auction from Cache
+    await redis.del(auction_id)
 
     if(query.$isDeleted()){
         return res.status(200).json({
