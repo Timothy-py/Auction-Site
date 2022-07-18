@@ -1,1 +1,1 @@
-A simple auction site.
+An Auction Application API Backend.
