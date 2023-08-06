@@ -1,10 +1,9 @@
 // require modules
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const swaggerDocs = require('./utils/swagger')
-
-require('dotenv').config();
 
 // require routes
 const routes = require('./routes/api');

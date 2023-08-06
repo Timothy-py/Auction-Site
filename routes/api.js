@@ -14,6 +14,10 @@ const checkCache = require('../middleware/checkCache');
 
 // AUCTION ROUTES
 
+router.get('/', (req, res)=>{
+    return res.status(200).send('Welcome to Auction App API')
+})
+
 // get all auctions
 router.get('/auction', auctionController.getAllAuctions);
 
